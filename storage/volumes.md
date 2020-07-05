@@ -81,11 +81,7 @@ syntax separates them. Here is a comparison of the syntax for each flag.
 {% endcomment %}
 もともと `-v` フラグや `--volume` フラグはスタンドアロンコンテナーに対して、また `--mount` フラグはスウォームサービスに対して用いられてきたものです。
 しかし Docker 17.06 からは `--mount` をスタンドアロンコンテナーに対しても利用できるようになりました。
-全般に `--mount` の方が明示的であり、
-In general,
-`--mount` is more explicit and verbose. The biggest difference is that the `-v`
-syntax combines all the options together in one field, while the `--mount`
-syntax separates them. Here is a comparison of the syntax for each flag.
+全般に `--mount` の方が明示的で詳細です． `-v` による構文との最大の違いは `-v` 構文ではすべてのオプションを一つのフィールドにまとめ、 `--mount` 構文ではそれらのオプションを分割します。下では両フラグでの構文を比較します。
 
 {% comment %}
 > New users should try `--mount` syntax which is simpler than `--volume` syntax.
@@ -109,16 +105,13 @@ If you need to specify volume driver options, you must use `--mount`.
   - The third field is optional, and is a comma-separated list of options, such
     as `ro`. These options are discussed below.
 {% endcomment %}
-- **`-v` or `--volume`**: Consists of three fields, separated by colon characters
-  (`:`). The fields must be in the correct order, and the meaning of each field
-  is not immediately obvious.
-  - In the case of named volumes, the first field is the name of the volume, and is
-    unique on a given host machine. For anonymous volumes, the first field is
-    omitted.
-  - The second field is the path where the file or directory are mounted in
-    the container.
-  - The third field is optional, and is a comma-separated list of options, such
-    as `ro`. These options are discussed below.
+- **`-v` あるいは `--volume`**: コロン（ `:` ）で分割された3つのフィールドを持ちます。
+    フィールドは正しい順番で並ばなくてはならず、またそれらは即座にわかりやすい意味となっていません。
+  - 名前付きボリュームでは、最初のフィールドは実行ホスト内でユニークなボリューム名です。
+    名無しのボリュームでは最初のフィールドは省略されます。
+  - 2番目のフィールドはコンテナにおけるファイルやディレクトリのマウント先です。
+  - 3番目のフィールドは任意に付加するコンマで分割された `ro` といったオプションのリストです。
+    それらのオプションは下で議論されています。
 
 {% comment %}
 - **`--mount`**: Consists of multiple key-value pairs, separated by commas and each
@@ -139,23 +132,18 @@ If you need to specify volume driver options, you must use `--mount`.
   - The `volume-opt` option, which can be specified more than once, takes a
     key-value pair consisting of the option name and its value.
 {% endcomment %}
-- **`--mount`**: Consists of multiple key-value pairs, separated by commas and each
-  consisting of a `<key>=<value>` tuple. The `--mount` syntax is more verbose
-  than `-v` or `--volume`, but the order of the keys is not significant, and
-  the value of the flag is easier to understand.
-  - The `type` of the mount, which can be [`bind`](bind-mounts.md), `volume`, or
-    [`tmpfs`](tmpfs.md). This topic discusses volumes, so the type is always
-    `volume`.
-  - The `source` of the mount. For named volumes, this is the name of the volume.
-    For anonymous volumes, this field is omitted. May be specified as `source`
-    or `src`.
-  - The `destination` takes as its value the path where the file or directory
-    is mounted in the container. May be specified as `destination`, `dst`,
-    or `target`.
-  - The `readonly` option, if present, causes the bind mount to be [mounted into
-    the container as read-only](#use-a-read-only-volume).
-  - The `volume-opt` option, which can be specified more than once, takes a
-    key-value pair consisting of the option name and its value.
+- **`--mount`**: コンマで分割された複数のキーと値のタプル（ `<key>=<value>` ）から成り立ちます。
+  `--mount` 構文は `-v` や `--volume` に比べより詳細でかつ、キーの順序は規定されておらず、
+  フラグの値は理解しやすいものです。
+  - マウントにおける `type` は [`bind`](bind-mounts.md) 、 `volume` 、あるいは [`tmpfs`](tmpfs.md) です。
+    このトピックではボリュームについて議論するので `type` は常に `volume` です。
+  - マウントの `source` について、名前付きボリュームにおいては、そのボリュームの名前です。
+    匿名ボリュームではこのフィールドは省略されます。 `source` あるいは `src` として明示されるでしょう。
+  - `destination` はコンテナにマウントされるファイルやディレクトリのパスを示す値です。 `destination` もしくは
+    `dst` あるいは `target` として明示されるでしょう。
+  - `readonly` オプションはもし示されたならバインドマウントは [mounted into
+    the container as read-only](#use-a-read-only-volume) です。
+  - `volume-opt` オプションは一度以上示され、オプション名とその値からなるキーと値のペアを取ります。
 
 {% comment %}
 > Escape values from outer CSV parser
